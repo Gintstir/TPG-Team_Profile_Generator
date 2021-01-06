@@ -1,0 +1,28 @@
+{
+  "name": "tpg-team_profile_generator",
+  "version": "1.0.0",
+  "description": "command-line-profile-generator",
+  "main": "Index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gintstir/TPG-Team_Profile_Generator.git"
+  },
+  "author": "Gintautas Stirbys",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gintstir/TPG-Team_Profile_Generator/issues"
+  },
+  "homepage": "https://github.com/gintstir/TPG-Team_Profile_Generator#readme",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  },
+  "dependencies": {
+    "inquirer": "^7.3.3"
+  }
+}
