@@ -5,8 +5,9 @@ const Employee = require('./lib/Employee');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
+const renderHTML = require('./page-template');
 
-let teamProfiles = [];
+let teamProfiles = []; // every time we create a new employee obj, push to this arr
 
 function addManagerInfo() {
     console.log(`
@@ -55,13 +56,21 @@ function addManagerInfo() {
         }        
     ])
     .then(function(data) {
-        const name = data.name;
-        const id = data.id;
-        const email = data.email;
-        const officeNumber = data.officeNumber;;
-        
+        // const name = data.name;
+        // const id = data.id;
+        // const email = data.email;
+        // const officeNumber = data.officeNumber;;
+        const manager = new Manager(data.name, data.id, data.email, data.officeNumber);
+        teamProfiles.push(manager)
+        console.log(renderHTML(teamProfiles));
+        fs.writeFile()
 
     })
 }
+
+function addMoreEmployees() {
+    
+}
+
 
 addManagerInfo();
