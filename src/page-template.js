@@ -1,6 +1,8 @@
 //create manager card
 
-function createManagerCard(managerObj) {
+
+
+function createManagerCard(manager) {
     return `
         <div class="card">
             <div class="card-header">

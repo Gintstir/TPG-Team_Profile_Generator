@@ -5,7 +5,8 @@ const Employee = require('./lib/Employee');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
-const renderHTML = require('./page-template');
+
+const renderHTML = require('./src/page-template');
 
 let teamProfiles = []; // every time we create a new employee obj, push to this arr
 
@@ -32,7 +33,7 @@ function profileBuilder() {
 
 
 //manager prompts that get pushed to teamProfiles[]
-function addManagerInfo() {
+const addManagerInfo = () => {
     
     inquirer.prompt([
         {
@@ -72,20 +73,18 @@ function addManagerInfo() {
             message: "What is the Manager's office number?"
         }        
     ])
-    .then(function(data) {
-        const name = data.name;
-        const id = data.id;
-        const email = data.email;
-        const officeNumber = data.officeNumber;;
-        const teamMember = new Manager(name, id, email, officeNumber);
-        teamProfiles.push(teamMember)
+    .then((data) => {
+        
+        manager.role= "Manager"
+        const manager = new Manager(data.name, data.id, data.email, response.role, data.officeNumber);
+        teamProfiles.push(manager)
         //console.log(renderHTML(teamProfiles));
         //fs.writeFile()
         addMoreEmployees();
     })
 }
 
-function addMoreEmployees() {
+const addMoreEmployees = () => {
     inquirer.prompt([
         {
             type: 'list',
@@ -99,8 +98,8 @@ function addMoreEmployees() {
         }
     ])
     .then(function(data){
-        switch (data.addMemberData) {
-            case "I would liek to add an Intern!":
+        switch (data.addTeamMember) {
+            case "I would like to add an Intern!":
                 addIntern();
                 break;
             case "I would like to add an Engineer!":
@@ -160,23 +159,28 @@ function addEngineer() {
         const id = teamProfiles.length + 1
         const email = data.email
         const github = data.github
-        const teamMember = new Intern(name, id, email, github)
+        const teamMember = new Engineer(name, id, email, github)
         teamProfiles.push(teamMember)
         addMoreEmployees();
     });
 };
 
 function generateTeam() {
-    console.log(`
+    
+    console.log(teamProfiles);
+    fs.writeFile('./dist/newProfile.html', renderHTML(teamProfiles), err => {
+        if(err) {
+            console.log(err);
+            return;
+        } else {
+            console.log(`
     =====================================
-         Thank you for using TPG!!!!
+         Team Profile Generated!
     =====================================
-           Your team is profile is
-           now being generated!!`)
-
-
+            `)
+        }        
+    })
 }
 
-
-
-// addManagerInfo();
+profileBuilder();
+    
