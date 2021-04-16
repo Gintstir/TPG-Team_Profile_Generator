@@ -9,14 +9,31 @@ const renderHTML = require('./page-template');
 
 let teamProfiles = []; // every time we create a new employee obj, push to this arr
 
-function addManagerInfo() {
+function profileBuilder() {
     console.log(`
         =====================================
         Welcome to the Team Profile Generator
         =====================================
         -Please follow the following prompts 
-        to create profiles for your team members-
-    `);
+        to create profiles for your team members-`)
+    inquirer.prompt([
+        {
+            message: "We will begin by adding you team's manager",
+            name: "yourTeam"
+        }
+    ])
+    .then(function(data){
+        const yourTeam = data.yourTeam
+        teamProfiles.push(yourTeam)
+        addManagerInfo();
+    })
+}
+
+
+
+//manager prompts that get pushed to teamProfiles[]
+function addManagerInfo() {
+    
     inquirer.prompt([
         {
             name: 'name',
@@ -56,21 +73,110 @@ function addManagerInfo() {
         }        
     ])
     .then(function(data) {
-        // const name = data.name;
-        // const id = data.id;
-        // const email = data.email;
-        // const officeNumber = data.officeNumber;;
-        const manager = new Manager(data.name, data.id, data.email, data.officeNumber);
-        teamProfiles.push(manager)
-        console.log(renderHTML(teamProfiles));
-        fs.writeFile()
-
+        const name = data.name;
+        const id = data.id;
+        const email = data.email;
+        const officeNumber = data.officeNumber;;
+        const teamMember = new Manager(name, id, email, officeNumber);
+        teamProfiles.push(teamMember)
+        //console.log(renderHTML(teamProfiles));
+        //fs.writeFile()
+        addMoreEmployees();
     })
 }
 
 function addMoreEmployees() {
-    
+    inquirer.prompt([
+        {
+            type: 'list',
+            message: "Would like to add another member to your team?",
+            choices: [
+                "I would like to add an Intern!",
+                "I would like to add an Engineer!",
+                "I am all done adding team members!"
+            ],
+            name: "addTeamMember"
+        }
+    ])
+    .then(function(data){
+        switch (data.addMemberData) {
+            case "I would liek to add an Intern!":
+                addIntern();
+                break;
+            case "I would like to add an Engineer!":
+                addEngineer();
+                break;
+            case "I'm all done, please show me my team!":
+                generateTeam();
+                break;
+        }
+    });
+}
+
+function addIntern() {
+    inquirer.prompt([
+        {
+            message: "What is your intern's name?",
+            name: "name"
+        },
+        {
+            message: "What is your intern's email address?",
+            name: "email"
+        },
+        {
+            message: "What school does your intern attend?",
+            name: "school"
+        }
+    ])
+    .then(function(data) {
+        const name = data.name
+        const id = teamProfiles.length + 1
+        const email = data.email
+        const school = data.school
+        const teamMember = new Intern(name, id, email, school)
+        teamProfiles.push(teamMember)
+        addMoreEmployees();        
+    });
+};
+
+
+function addEngineer() {
+    inquirer.prompt([
+        {
+            message: "What is your engineer's name?",
+            name: "name"
+        },
+        {
+            message: "What is your Engineer's email address?",
+            name: "email"
+        },
+        {
+            message: "Please add a link to your engineer's github profile:",
+            name: "github"
+        }
+    ])
+    .then(function(data){
+        const name = data.name
+        const id = teamProfiles.length + 1
+        const email = data.email
+        const github = data.github
+        const teamMember = new Intern(name, id, email, github)
+        teamProfiles.push(teamMember)
+        addMoreEmployees();
+    });
+};
+
+function generateTeam() {
+    console.log(`
+    =====================================
+         Thank you for using TPG!!!!
+    =====================================
+           Your team is profile is
+           now being generated!!`)
+
+
 }
 
 
-addManagerInfo();
+
+// addManagerInfo();
