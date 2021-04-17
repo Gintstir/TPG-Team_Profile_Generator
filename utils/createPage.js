@@ -10,12 +10,7 @@ const createPage = (pageTemplate) => {
         }        
         resolve({
           ok: true,
-          message: `
-                    ==================================================================
-                    Team has been generated!  Look in the /dist folder to view output!
-                            Thank you for using TGP- Team Profile Generator!!!!
-                    ================================================================== `,
-          
+          message: "Thank you for using TGP- Team Profile Generator!!!! Team has been generated!  Look in the /dist folder to view output!"                   
         });
       });
     });
