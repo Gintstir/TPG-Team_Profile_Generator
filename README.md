@@ -5,6 +5,8 @@
 
   A node.js app that uses Inquirer to create employee profile cards based on user input.  
 
+  **[Video walkthrough](https://youtu.be/L383jjITzn8)**
+
   ## **Table of Contents**
 
   * *[Installation](#installation)*
