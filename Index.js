@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const fs = require('fs');
+
 
 const Employee = require('./lib/Employee');
 const Engineer = require('./lib/Engineer');
@@ -8,34 +8,24 @@ const Manager = require('./lib/Manager');
 
 const renderHTML = require('./src/page-template');
 
-const writeFile = require('./utils/writeFile');
+//separating concerns- use writeFile function in utils folder to teamProfiles array to page-template.js 
+const createPage = require('./utils/createPage');
 
-let teamProfiles = []; // every time we create a new employee obj, push to this arr
-
-// function profileBuilder() {
-//     console.log(`
-//         =====================================
-//         Welcome to the Team Profile Generator
-//         =====================================
-//         -Please follow the following prompts 
-//         to create profiles for your team members-`)
-//     inquirer.prompt([
-//         {
-//             message: "We will begin by adding you team's manager",
-//             name: "yourTeam"
-//         }
-//     ])
-//     .then(function(data){
-//         const yourTeam = data.yourTeam
-//         teamProfiles.push(yourTeam)
-//         addManagerInfo();
-//     })
-// }
-
+// every time we create a new employee obj, push to this arr
+let teamProfiles = []; 
 
 
 //manager prompts that get pushed to teamProfiles[]
 const addManager = () => {
+
+    console.log(`
+    //         =====================================         //
+    //         Welcome to the Team Profile Generator         //
+    //         =====================================         //
+    //         ------Please follow the prompts------         //
+    //        to create profiles for your team members       //
+    //              Let's start with a manager!              // 
+    `)
     
     inquirer.prompt([
         {
@@ -72,59 +62,50 @@ const addManager = () => {
         {
             name: 'officeNumber',
             type: 'input',
-            message: "What is the Manager's office number?"
+            message: "What is the Team Manager's office number?"
         }        
     ])
-    .then((answer) => {
+    .then((response) => {
         
         
-        const manager = new Manager(answer.name, answer.id, answer.email, answer.role, answer.officeNumber);
+        const manager = new Manager(response.name, response.id, response.email, response.role, response.officeNumber);
         manager.role= "Manager"
-        teamProfiles.push(manager)
-        //console.log(renderHTML(teamProfiles));
-        //fs.writeFile()
+        teamProfiles.push(manager)        
         console.log(manager)
-        addMoreEmployees();
+        keepAddingEmployees();
     })
 }
-
+//If user confirms 'y' to keep adding more employees, they will choose which employee they want to add.  If 'n' then render profiles.
 const addMoreEmployees = () => {
     inquirer.prompt([
         {
             type: 'list',
             message: "Would like to add another member to your team?",
             choices: [
+                "I would like to add another Manager",
                 "I would like to add an Intern!",
                 "I would like to add an Engineer!",
+                
                 
             ],
             name: "addOne"
         }
     ])
-    .then((profilePick) => {
-        if(profilePick.addOne === "I would like to add an Intern!") {
-            addIntern(profilePick);
+    .then((response) => {
+        if(response.addOne === "I would like to add another Manager!") {
+            addManager()
         }
-        if(profilePick.addOne === "I would like to add an Engineer!"){
-            addEngineer(profilePick)
+        if(response.addOne === "I would like to add an Intern!") {
+            addIntern();
         }
-
-
-        // switch (answer.addOrStop) {
-        //     case "I would like to add an Intern!":
-        //         addIntern();
-        //         break;
-        //     case "I would like to add an Engineer!":
-        //         addEngineer();
-        //         break;
-            // case "I'm all done, please show me my team!":
-            //     generateTeam();
-            //     break;
-        
+        if(response.addOne === "I would like to add an Engineer!"){
+            addEngineer();
+        }        
     });
 };
 
-const addIntern = (profilePick) => {
+//Intern prompts that get pushed to teamProfiles array
+const addIntern = () => {
     inquirer.prompt([
         {
             type: "input",
@@ -147,9 +128,9 @@ const addIntern = (profilePick) => {
             name: "school"
         }
     ])
-    .then((answer) => {
+    .then((response) => {
         
-        const intern = new Intern(answer.name, answer.id, answer.email, answer.role, answer.school)
+        const intern = new Intern(response.name, response.id, response.email, response.role, response.school)
         intern.role = "Intern"
         teamProfiles.push(intern)
         console.log(intern)
@@ -157,8 +138,8 @@ const addIntern = (profilePick) => {
     });
 };
 
-
-const addEngineer = (profilePick) => {
+//Engineer prompts that get pushed to teamProfiles array
+const addEngineer = () => {
     inquirer.prompt([
         {
             message: "What is your engineer's name?",
@@ -177,9 +158,9 @@ const addEngineer = (profilePick) => {
             name: "github"
         }
     ])
-    .then((answer) => {
+    .then((response) => {
         
-        const engineer = new Engineer(answer.name, answer.id, answer.email, answer.role, answer.github)
+        const engineer = new Engineer(response.name, response.id, response.email, response.role, response.github)
         engineer.role = "Engineer"
         teamProfiles.push(engineer)
         console.log(engineer);
@@ -187,7 +168,7 @@ const addEngineer = (profilePick) => {
     });
 };
 
-
+//This prompts user if they want to keep adding profiles, if 'y' trigger addMoreEmployees(), if 'n' render profiles. 
 const keepAddingEmployees = () => {
     inquirer.prompt([
         {
@@ -202,40 +183,24 @@ const keepAddingEmployees = () => {
             addMoreEmployees(teamProfiles);
         }
         if(!answer.confirmKeepAddingEmployees) {
-            console.log(teamProfiles);
-            let pageHtml = renderHTML(teamProfiles);
-            writeFile(pageHtml)
-            .then((writeFileResponse) => {
-                console.log(writeFileResponse);
-            //     return copyFile();
-              })
-            //   .then((copyFileResponse) => {
-            //     console.log(copyFileResponse);
-            //   });
+            console.log(`
+            =================
+            Here is you team:
+            =================
+            `,teamProfiles);
+            
+            let profilePage = renderHTML(teamProfiles);
+
+            createPage(profilePage)
+            .then((resolvePromise) => {
+                console.log(resolvePromise);            
+            })            
         }
     })
 }
 
 addManager();
 
-// const generateTeam = () => {
-    
-//     //console.log(teamProfiles);
-    
-//     fs.writeFile('index.html', renderHtml(teamProfiles), err => {
-//         if(err) {
-//             console.log(err);
-//             return;
-//         }                
-//     })
-    
-//     console.log(` 
-//     =====================================
-//        Team Profile Generated!
-//     =====================================
-//        `)
-// }
 
-// //profileBuilder();
 
     

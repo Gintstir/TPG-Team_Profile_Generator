@@ -2,47 +2,7 @@
 //create intern card
 //create engineer card
 
-{/* <div class="card" style="width: 18rem">
-            <div class="card-header">
-                <h2 class="card-title"> ${manager.role}</h2>
-                <h3 class="card-title><i class="fas fa-mug-hot mr-2></i>${manager.name}</h3>
-            </div>
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item"> ID: ${manager.id} </li>
-                    <li class="list-group-item"> Email:<a href="mailto:${manager.email}> ${manager.email}</a> </li>
-                    <li clasw="list-group-item">Office number: ${manager.officeNumber} </li>
-                </ul>
-            </div>
-        </div> */}
 
-{/* <div class="card">
-            <div class="card-header">
-                <h2 class="card-title"> ${intern.name} </h2>
-                <h3 class="card-title><i class="fas fa-mug-hot mr-2></i>${intern.role} </h3>
-            </div>
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item"> ID: ${intern.id} </li>
-                    <li class="list-group-item"> Email:<a href="mailto:${intern.email}> ${intern.email}</a> </li>
-                    <li clasw="list-group-item">School: ${intern.school} </li>
-                </ul>
-            </div>
-        </div> */}
-
-{/* <div class="card">
-            <div class="card-header">
-                <h2 class="card-title"> ${engineer.name} </h2>
-                <h3 class="card-title><i class="fas fa-mug-hot mr-2></i>${engineer.role} </h3>
-            </div>
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item"> ID: ${engineer.id} </li>
-                    <li class="list-group-item"> Email:<a href="mailto:${engineer.email}> ${engineer.email}</a> </li>
-                    <li clasw="list-group-item">Github:<a href="http://www.github.com/${engineer.github} target="_blank">${engineer.github}</li>
-                </ul>
-            </div>
-        </div> */}
 
 function createManagerCard(manager) {
     return `
@@ -96,8 +56,8 @@ function renderHTML(teamProfiles) {
         
     </head>
     <body>
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container justify-content-center">
+        <div class="jumbotron jumbotron-fluid justify-content-center">
+            <div class="container ">
                 <h1 class="display-4">Team Profile Generator</h1>
                 <p class="lead">Here's your team:</p>
             </div>
@@ -108,10 +68,10 @@ function renderHTML(teamProfiles) {
                 <div class="col-sm-3">
                     ${teamProfiles.filter( employee => employee.getRole() === "Manager").map(manager => createManagerCard(manager))}
                 </div>
-                 <div class="col-3">
+                 <div class="col-sm-3">
                     ${teamProfiles.filter( employee => employee.getRole() === "Intern").map(intern => createInternCard(intern))}
                 </div>
-                <div class="col-3">
+                <div class="col-sm-3">
                     ${teamProfiles.filter( employee => employee.getRole() === "Engineer").map(engineer => createEngineerCard(engineer))}
                 </div>
             </div>
