@@ -149,7 +149,7 @@ const addIntern = (profilePick) => {
     ])
     .then((answer) => {
         
-        const intern = new Intern(answer.name, answer.id, answer.email, answer.school)
+        const intern = new Intern(answer.name, answer.id, answer.email, answer.role, answer.school)
         intern.role = "Intern"
         teamProfiles.push(intern)
         console.log(intern)
@@ -158,7 +158,7 @@ const addIntern = (profilePick) => {
 };
 
 
-const addEngineer = () => {
+const addEngineer = (profilePick) => {
     inquirer.prompt([
         {
             message: "What is your engineer's name?",
@@ -207,11 +207,11 @@ const keepAddingEmployees = () => {
             writeFile(pageHtml)
             .then((writeFileResponse) => {
                 console.log(writeFileResponse);
-                return copyFile();
+            //     return copyFile();
               })
-              .then((copyFileResponse) => {
-                console.log(copyFileResponse);
-              });
+            //   .then((copyFileResponse) => {
+            //     console.log(copyFileResponse);
+            //   });
         }
     })
 }
