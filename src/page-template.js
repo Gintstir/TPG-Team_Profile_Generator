@@ -6,14 +6,14 @@ function createManagerCard(manager) {
     return `
         <div class="card">
             <div class="card-header">
-                <h2 class="card-title"> ${managerObj.name} </h2>
-                <h3 class="card-title><i class="fas fa-mug-hot mr-2></i>${managerObj.role} </h3>
+                <h2 class="card-title"> ${manager.name} </h2>
+                <h3 class="card-title><i class="fas fa-mug-hot mr-2></i>${manager.role} </h3>
             </div>
             <div class="card-body">
                 <ul class="list-group">
-                    <li class="list-group-item"> ID: ${managerObj.id} </li>
-                    <li class="list-group-item"> Email:<a href="mailto:${managerObj.email}> ${managerObj.email}</a> </li>
-                    <li clasw="list-group-item">Office number: ${managerObj.officeNumber} </li>
+                    <li class="list-group-item"> ID: ${manager.id} </li>
+                    <li class="list-group-item"> Email:<a href="mailto:${manager.email}> ${manager.email}</a> </li>
+                    <li clasw="list-group-item">Office number: ${manager.officeNumber} </li>
                 </ul>
             </div>
         </div>
