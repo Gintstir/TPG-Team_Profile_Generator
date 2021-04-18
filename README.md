@@ -7,6 +7,8 @@
 
   **[Video walkthrough](https://youtu.be/L383jjITzn8)**
 
+  **[Deployed Site](https://gintstir.github.io/TPG-Team_Profile_Generator/)**
+
   ## **Table of Contents**
 
   * *[Installation](#installation)*

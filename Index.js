@@ -1,12 +1,12 @@
 const inquirer = require("inquirer");
 
+const renderHTML = require('./src/page-template');
 
-const Employee = require('./lib/Employee');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 
-const renderHTML = require('./src/page-template');
+
 
 //separating concerns- use writeFile function in utils folder to teamProfiles array to page-template.js 
 const createPage = require('./utils/createPage');
@@ -197,7 +197,10 @@ const keepAddingEmployees = () => {
             })            
         }
     })
+         
 }
+
+
 
 addManager();
 
